@@ -1,0 +1,272 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org"
+      xmlns:layout="http://www.ultraq.net.nz/web/thymeleaf/layout"
+      layout:decorator="layout/base">
+<head>
+    <meta charset="utf-8" />
+    <title>redis管理</title>
+    <meta http-equiv="X-UA-Compatible" content="IE=Edge" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <link rel="import" href="/static/import.html">
+</head>
+<script>
+    var table;
+    var path;
+    function showRedisTable(nodepath){
+        path = nodepath;
+        $('#myTable').DataTable({
+            ajax: {
+                url: "/redis/list",
+                method: 'POST',
+                data: { namePrefix: nodepath}
+            },
+            columns: [
+                { data: "path" },
+                { data: "value" },
+                { data: "path" },
+            ],
+            columnDefs: [{
+                "targets": 0,
+                "data": null,
+                "render": function ( data ) {
+                    return "<span onclick=showRedisTable('"+ data + "')>" + data + "</span>";
+                }
+            },{
+                "targets": -1,
+                "data": null,
+                "render": function ( data ) {
+                    // return "<button onclick=modifyNode('"+ data + "')>修改</button>";
+                    return '<button type="button" onclick="modifyNode(\''+ data + '\')" data-toggle="modal" data-target="#updateNode" class="btn btn-primary">修改</button>'
+                        + '    '
+                        + '<button type="button" onclick="delNode(\''+ data + '\')" data-toggle="modal" data-target="#deleteNode" class="btn btn-danger">删除</button>';
+                }
+            }],
+            "destroy": true
+        });
+    }
+
+function createNode() {
+    $.ajax({ url: "/zk/node/create", data: { path : path + '/' + $('#nodename').val(), value : $('#nodevalue').val()}, success: function(result){
+        if(result.success){
+            table = showRedisTable(path);
+        }else{
+            alert(result.msg);
+        }
+        }});
+
+}
+
+function modifyNode(nodepath) {
+    $('#updatenodepath').val(nodepath);
+    $.ajax({ url: "/zk/node/query", data: { path : nodepath}, success: function(result){
+            if(result.success){
+                $('#updatenodevalue').val(result.data.value);
+            }else{
+                alert(result.msg);
+            }
+        }});
+}
+function updateNode() {
+    $.ajax({ url: "/zk/node/update", data: { path : $('#updatenodepath').val(), value : $('#updatenodevalue').val()}, success: function(result){
+            if(result.success){
+                table = showRedisTable(path);
+            }else{
+                alert(result.msg);
+            }
+        }});
+
+}
+
+    function delNode(nodepath) {
+        $('#deletenodepath').val(nodepath);
+        $.ajax({ url: "/zk/node/query", data: { path : nodepath}, success: function(result){
+                if(result.success){
+                    $('#deletenodevalue').val(result.data.value);
+                }else{
+                    alert(result.msg);
+                }
+            }});
+    }
+
+function deleteNode() {
+    $.ajax({ url: "/zk/node/delete", data: { path : $('#deletenodepath').val()}, success: function(result){
+            if(result.success){
+                table = showRedisTable(path);
+            }else{
+                alert(result.msg);
+            }
+        }});
+}
+
+function shownewnodeinfo() {
+    $('#parentnode').val(path);
+}
+
+    $(document).ready(function(){
+        $.ajax({ url: "/redis/env", success: function(result){
+                if(result.success){
+                    $('#redisenv').val(result.data);
+                }else{
+                    alert(result.msg);
+                }
+            }});
+    });
+</script>
+<body>
+
+<div th:insert="~{layout/nav :: topnav}"></div>
+
+<form class="form-horizontal">
+    <div class="form-group">
+        <label for="redisenv" class="col-sm-1 control-label"> 集群名称</label>
+        <div class="col-sm-8">
+            <input type="text" class="form-control" id="redisenv" disabled>
+        </div>
+    </div>
+</form>
+
+<hr>
+
+<!-- Button trigger modal -->
+<button type="button" class="btn btn-primary" data-toggle="modal" data-target="#newNode" onclick="shownewnodeinfo()">
+    新增
+</button>
+
+<hr>
+
+<!-- create Modal -->
+<div class="modal fade" id="newNode" tabindex="-1" role="dialog" aria-labelledby="newNodeLabel">
+    <div class="modal-dialog" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+                <h4 class="modal-title" id="newNodeLabel">新增节点</h4>
+            </div>
+            <div class="modal-body">
+                <form class="form-horizontal" >
+                    <div class="form-group">
+                        <label for="parentnode" class="col-sm-2 control-label">父节点</label>
+                        <div class="col-sm-10">
+                            <input type="text" class="form-control" id="parentnode" disabled>
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <label for="nodename" class="col-sm-2 control-label">节点名</label>
+                        <div class="col-sm-10">
+                            <input type="text" class="form-control" id="nodename" >
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <label for="nodevalue" class="col-sm-2 control-label">节点值</label>
+                        <div class="col-sm-10">
+                            <textarea class="form-control" id="nodevalue" ></textarea>
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <div class="col-sm-offset-2 col-sm-10">
+                            <button type="button" class="btn btn-default" data-dismiss="modal">关闭</button>
+                            <button class="btn btn-default"  data-dismiss="modal" onclick="createNode()">保存</button>
+                        </div>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+</div>
+
+
+<!-- update Modal -->
+<div class="modal fade " id="updateNode" tabindex="-1" role="dialog" aria-labelledby="updateNodeLabel">
+    <div class="modal-dialog " role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+                <h4 class="modal-title" id="updateNodeLabel">修改节点</h4>
+            </div>
+            <div class="modal-body">
+                <form class="form-horizontal" >
+                    <div class="form-group">
+                        <label for="updatenodepath" class="col-sm-2 control-label">节点</label>
+                        <div class="col-sm-10">
+                            <input type="text" class="form-control" id="updatenodepath" disabled>
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <label for="nodevalue" class="col-sm-2 control-label">节点值</label>
+                        <div class="col-sm-10">
+                            <textarea class="form-control" id="updatenodevalue" ></textarea>
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <div class="col-sm-offset-2 col-sm-10">
+                            <button type="button" class="btn btn-default" data-dismiss="modal">关闭</button>
+                            <button class="btn btn-default"  data-dismiss="modal" onclick="updateNode()">确认</button>
+                        </div>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+</div>
+
+<!-- delete Modal -->
+<div class="modal fade" id="deleteNode" tabindex="-1" role="dialog" aria-labelledby="deleteNodeLabel">
+    <div class="modal-dialog" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+                <h4 class="modal-title" id="deleteNodeLabel">删除节点</h4>
+            </div>
+            <div class="modal-body">
+                <form class="form-horizontal" >
+                    <div class="form-group">
+                        <label for="deletenodepath" class="col-sm-2 control-label">节点</label>
+                        <div class="col-sm-10">
+                            <input type="text" class="form-control" id="deletenodepath" disabled>
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <label for="deletenodevalue" class="col-sm-2 control-label">节点值</label>
+                        <div class="col-sm-10">
+                            <textarea class="form-control" id="deletenodevalue" disabled></textarea>
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <div class="col-sm-offset-2 col-sm-10">
+                            <button type="button" class="btn btn-default" data-dismiss="modal">关闭</button>
+                            <button class="btn btn-danger"  data-dismiss="modal" onclick="deleteNode()">确认删除</button>
+                        </div>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+</div>
+
+<div>
+    <table id="myTable" class="display" style="width:100%" align="center">
+        <thead>
+        <tr>
+            <th>Key</th>
+            <th>Value</th>
+            <th>操作</th>
+        </tr>
+        </thead>
+        <tfoot>
+        <tr>
+            <th>Key</th>
+            <th>Value</th>
+            <th>操作</th>
+        </tr>
+        </tfoot>
+    </table>
+</div>
+
+<div th:insert="~{layout/footer :: copy}"></div>
+
+</body>
+<script>
+    table = showRedisTable('IDEMPOTENT');
+</script>
+
+</html>

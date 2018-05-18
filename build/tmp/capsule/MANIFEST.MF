@@ -1,0 +1,11 @@
+Manifest-Version: 1.0-SNAPSHOT
+Application-Version: 1.0-SNAPSHOT
+Implementation-Title: ICE
+Premain-Class: Capsule
+Implementation-Version: 1.0-SNAPSHOT
+Application-Class: com.ice.App
+JVM-Args: -server
+Application-ID: ice
+Main-Class: Capsule
+Min-Java-Version: 1.8.0
+
