@@ -7,7 +7,7 @@ import lombok.Data;
 @Builder
 public class BaseResponse {
 
-  private boolean isSuccess = true;
+  private boolean isSuccess;
 
   private Object data;
 

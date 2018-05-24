@@ -13,7 +13,7 @@ public class ZkService {
 
   //dev
   private final static SolrZkClient solrZkClient = new SolrZkClient("10.18.19.64:12181,10.18.19.61:12181,10.18.19.28:12181", 10000);
-//  //demo
+  //demo
 //  private final static SolrZkClient solrZkClient = new SolrZkClient("10.18.19.64:22181,10.18.19.28:22181,10.18.19.61:22181", 10000);
 
   public static List<Node> listNode(String path) throws Exception {

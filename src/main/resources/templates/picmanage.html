@@ -1,0 +1,114 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org"
+      xmlns:layout="http://www.ultraq.net.nz/web/thymeleaf/layout"
+      layout:decorator="layout/base">
+<head>
+    <meta charset="utf-8" />
+    <title>图片管理</title>
+    <meta http-equiv="X-UA-Compatible" content="IE=Edge" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <link rel="import" href="/static/import.html">
+</head>
+
+<script>
+    function refresh(refresh,loadmore) {
+        $(window).scroll(function(){
+            console.log('正在滑动f');
+            var scrollTop = $(this).scrollTop();    //滚动条距离顶部的高度
+            var scrollHeight = $(document).height();   //当前页面的总高度
+            var clientHeight = $(this).height();    //当前可视的页面高度
+            // console.log("top:"+scrollTop+",doc:"+scrollHeight+",client:"+clientHeight);
+            if(scrollTop + clientHeight >= scrollHeight){   //距离顶部+当前高度 >=文档总高度 即代表滑动到底部 count++;         //每次滑动count加1
+                // filterData(serviceTypeId,industryId,cityId,count); //调用筛选方法，count为当前分页数
+                console.log('下拉');
+                if(loadmore){
+                    loadmore();
+                }
+            }else if(scrollTop<=0){
+                //滚动条距离顶部的高度小于等于0 TODO
+                //alert("下拉刷新，要在这调用啥方法？");
+                console.log('上拉');
+                if(refresh){
+                    refresh();
+                }
+            }
+        });
+    }
+
+    refresh(false,true);
+
+
+    function showPic(path){
+        $("#breadcrumb").empty();
+        $("#breadcrumb").append("<li><a onclick=\"showPic('')\">我的电脑</a></li>");
+        var pathtmp = '';
+        path.split("/").forEach(function (value) {
+            if(pathtmp == ''){
+                pathtmp = value + "/";
+                $("#breadcrumb").append("<li><a onclick=\"showPic('" + pathtmp + "')\">" + value + "</a></li>");
+            }else{
+                if(value != ''){
+                    pathtmp = pathtmp + "/" + value;
+                    $("#breadcrumb").append("<li><a onclick=\"showPic('" + pathtmp + "')\">" + value + "</a></li>");
+                }
+            }
+        });
+
+        $.ajax({ url: "/pic/list", data: { path : pathtmp}, success: function(result){
+                if(result.success){
+                    $("#piclistfield").empty();
+                    result.data.forEach(function (value) {
+                        if(value.directory){
+                            if(value.empty){
+                                $("#piclistfield").append("<div class=\"col-md-3\"><button type=\"button\" class=\"btn btn-info\" onclick=\"showPic('" + value.path + "')\">" + value.name + "(空)</button>");
+                            }else {
+                                $("#piclistfield").append("<div class=\"col-md-3\"><button type=\"button\" class=\"btn btn-success\" onclick=\"showPic('" + value.path + "')\">" + value.name + "</button>");
+                            }
+                        }else{
+                            $("#piclistfield").append("<div class=\"col-md-3\"><button type=\"button\" class=\"btn btn-danger\" >" + value.name + "</button>");
+                        }
+                    });
+                }else{
+                    alert(result.msg);
+                }
+            }});
+    }
+</script>
+<body>
+
+<div th:insert="~{layout/nav :: topnav}"></div>
+
+<ol class="breadcrumb" id="breadcrumb">
+    <!--<li><a onclick="showPic('D:')">D:</a></li>-->
+</ol>
+
+<hr>
+<form class="form-inline">
+    <div class="form-group">
+        <label class="col-sm-2 control-label">图例</label>
+    </div>
+    <div class="form-group">
+        <button type="button" class="btn btn-success" >文件夹</button></div>
+        <div class="form-group">
+            <button type="button" class="btn btn-info" >空文件夹</button></div>
+            <div class="form-group">
+                <button type="button" class="btn btn-danger" >文件</button></div>
+</div>
+</form>
+
+<hr>
+
+<div class="row" id="piclistfield">
+</div>
+
+<hr>
+
+<div th:insert="~{layout/footer :: copy}"></div>
+
+<script>
+
+    showPic('');
+</script>
+</body>
+
+</html>

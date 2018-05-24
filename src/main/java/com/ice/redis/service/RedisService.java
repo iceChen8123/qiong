@@ -31,15 +31,15 @@ public class RedisService {
 
   public List<Map.Entry<String, String>> list(String namePrefix) {
     List<Map.Entry<String, String>> rtnList = new ArrayList<>();
-    Cursor<byte[]> scan = template.getConnectionFactory().getConnection().scan(ScanOptions.scanOptions().match(namePrefix).count(100).build());
-    while (scan.hasNext()) {
-      try {
-        String key = new String(scan.next(), "UTF-8");
-        rtnList.add(new HashMap.SimpleEntry(key, template.getConnectionFactory().getConnection().get(key.getBytes())));
-      } catch (UnsupportedEncodingException e) {
-        e.printStackTrace();
-      }
-    }
+//    Cursor<byte[]> scan = template.getConnectionFactory().getConnection().scan(ScanOptions.scanOptions().match(namePrefix).count(100).build());
+//    while (scan.hasNext()) {
+//      try {
+//        String key = new String(scan.next(), "UTF-8");
+//        rtnList.add(new HashMap.SimpleEntry(key, template.getConnectionFactory().getConnection().get(key.getBytes())));
+//      } catch (UnsupportedEncodingException e) {
+//        e.printStackTrace();
+//      }
+//    }
     return rtnList;
   }
 }
