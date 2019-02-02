@@ -22,7 +22,7 @@ public class TaidongController {
         effectiveTime++;
       }
     }
-    return BaseResponse.builder().isSuccess(true).data("å¼€å‘ä¸­").build();
+    return BaseResponse.builder().isSuccess(true).data("¿ª·¢ÖĞ").build();
   }
 
   private static LinkedList<Integer> analysisInfo(String info) {

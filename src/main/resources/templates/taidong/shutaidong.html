@@ -47,14 +47,14 @@
   }
 
   var start = true;
-  var flagnum = 30;
+  var flagnum = 60;
   function timefly(){
       if(kick){
           if(start){
               $("#starttime").append(getNow());
               start = false;
               $("#kickinfo").empty();
-              flagnum = 30;
+              flagnum = 60;
           }
           $("#kickinfo").append(".");
           kick = false;
@@ -63,7 +63,7 @@
       }
       flagnum--;
       if(flagnum == 0){
-          flagnum = 30;
+          flagnum = 60;
           $("#kickinfo").append("<br>");
       }
   }
@@ -75,6 +75,7 @@
 
   var timer;
   $(document).ready(function(){
+      $("#calcbutton").hide();
       alert("欢迎使用最简单的胎动计数器^_^");
       timer = setInterval(timefly, 1000);
   });
@@ -84,6 +85,8 @@
           $("#endtime").append(getNow());
           clearInterval(timer);
           stop = true;
+          $("#stopbutton").hide();
+          $("#calcbutton").show();
       }
   }
 
@@ -109,14 +112,12 @@
 <body>
 
 <div id="counter" style="height: 100%;width: 100%;border: 1px;position: fixed;background-color: mediumspringgreen;" onclick="count()">
-    <button type="button" class="btn btn-danger btn-lg" onclick="stoprecord()">停止</button>
-    <button type="button" class="btn btn-warning btn-lg" onclick="calcnum()">计算胎动数</button>
-    <p align="center" id="info" style="color: red;">请直接点击屏幕即可 :
-    <span id="starttime" style="color: red;"></span>
-    <span>------</span>
-    <span id="endtime" style="color: red;"></span>
-    </p>
-  <br>
+    <button id= "stopbutton" type="button" class="btn btn-danger btn-lg btn-block" onclick="stoprecord()">停止</button>
+    <button id= "calcbutton" type="button" class="btn btn-warning btn-lg btn-block" onclick="calcnum()">计算胎动数</button>
+    <p align="center" style="color: red;"><b>点击屏幕即可计数(<span style="color: blue;">一行数据为60秒</span>)</b></p>
+    <p align="center" style="color: red;">开始时间:<span id="starttime" style="color: blue;"></span></p>
+    <p align="center" style="color: red;">结束时间:<span id="endtime" style="color: blue;"></span></p>
+    <br>
     <div id="kickinfo"></div>
 </div>
 

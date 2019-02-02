@@ -34,11 +34,10 @@ dependencies {
     compile 'org.springframework.boot:spring-boot-starter-thymeleaf'
     compile 'org.springframework.boot:spring-boot-starter-aop'
 
-//    compile 'it.uniroma1.dis.wsngroup.gexf4j:gexf4j:1.0.0' //用echarts的话,可能会用到,其他不用
-
     compile 'org.springframework.boot:spring-boot-starter-data-neo4j'
     compile 'com.belerweb:pinyin4j:2.5.1'
 
+//    compile 'it.uniroma1.dis.wsngroup.gexf4j:gexf4j:1.0.0' //用echarts的话,可能会用到,其他不用
 //    compile 'com.google.guava:guava'
 }
 
