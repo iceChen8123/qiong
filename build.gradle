@@ -5,7 +5,7 @@ apply plugin: 'idea'
 
 buildscript {
     repositories {
-        jcenter()
+        maven { url 'https://maven.aliyun.com/repository/public/' }
     }
     dependencies {
         classpath 'org.springframework.boot:spring-boot-gradle-plugin:2.0.0.RELEASE'
@@ -37,6 +37,7 @@ dependencies {
 //    compile 'it.uniroma1.dis.wsngroup.gexf4j:gexf4j:1.0.0' //用echarts的话,可能会用到,其他不用
 
     compile 'org.springframework.boot:spring-boot-starter-data-neo4j'
+    compile 'com.belerweb:pinyin4j:2.5.1'
 
 //    compile 'com.google.guava:guava'
 }
