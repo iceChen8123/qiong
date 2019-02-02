@@ -21,15 +21,22 @@ public class ZkService {
     List<Node> nodeList = new ArrayList<>();
     children.forEach(pathTmp -> {
       try {
-        nodeList.add(queryNode(path + "/" + pathTmp));
+        nodeList.add(queryNode(genFullPath(path, pathTmp)));
       } catch (NullPointerException e) {
-        nodeList.add(new Node(path + "/" + pathTmp, ""));
+        nodeList.add(new Node(genFullPath(path, pathTmp), ""));
       } catch (Exception e) {
         log.warn("", e);
-        nodeList.add(new Node(path + "/" + pathTmp, ""));
+        nodeList.add(new Node(genFullPath(path, pathTmp), ""));
       }
     });
     return nodeList;
+  }
+
+  private static String genFullPath(String path, String pathTmp) {
+    if(path.equals("/")){
+      return path + pathTmp;
+    }
+    return path + "/" + pathTmp;
   }
 
   public static boolean updateNode(String path, String value) throws Exception {

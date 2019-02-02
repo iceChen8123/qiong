@@ -7,7 +7,7 @@ import org.springframework.web.servlet.ModelAndView;
 @Controller
 public class ToPageController {
 
-  @RequestMapping("/")
+  @RequestMapping("/hello")
   public ModelAndView toZkManagePage() {
     return new ModelAndView("dashboard");
   }

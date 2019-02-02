@@ -1,6 +1,6 @@
 package com.ice.picmanage.controller;
 
-import com.ice.BaseResponse;
+import com.ice.common.BaseResponse;
 import com.ice.picmanage.PicService;
 import org.apache.commons.lang3.StringUtils;
 import org.springframework.web.bind.annotation.RequestMapping;

@@ -36,8 +36,9 @@ dependencies {
     compile 'org.springframework.boot:spring-boot-starter-thymeleaf'
     compile 'org.springframework.boot:spring-boot-starter-aop'
 
-    compile 'org.springframework.data:spring-data-redis:2.0.6.RELEASE'
-    compile 'redis.clients:jedis:2.9.0'
+//    compile 'it.uniroma1.dis.wsngroup.gexf4j:gexf4j:1.0.0' //用echarts的话,可能会用到,其他不用
+
+    compile 'org.springframework.boot:spring-boot-starter-data-neo4j'
 
 //    compile 'com.google.guava:guava'
 }

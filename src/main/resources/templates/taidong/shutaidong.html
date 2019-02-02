@@ -1,0 +1,125 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org"
+      xmlns:layout="http://www.ultraq.net.nz/web/thymeleaf/layout"
+      layout:decorator="layout/base">
+<head>
+    <meta charset="utf-8" />
+    <title>胎动计数器</title>
+    <meta http-equiv="X-UA-Compatible" content="IE=Edge" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <link rel="import" href="/static/import.html">
+    <meta name="keywords" content="胎动,数胎动" />
+
+<script>
+
+  function getNow() {
+      date = new Date();
+      var year = date.getFullYear();
+
+      var month = date.getMonth();
+      if(month<10){
+          month = "0"+month;
+      }
+
+      var day = date.getDay();
+      if(day<10){
+          day = "0"+day;
+      }
+
+      var hours = date.getHours();
+      if(hours<10){
+          hours = "0"+hours;
+      }
+      var minutes = date.getMinutes();
+      if(minutes<10){
+          minutes = "0"+minutes;
+      }
+      var seconds = date.getSeconds();
+      if(seconds<10){
+          seconds = "0"+seconds;
+      }
+      return year + "-" + month + "-"  + day + " " + hours + ":" + minutes + ":"  + seconds;
+  }
+
+  var kick = false;
+  function count(){
+      kick = true;
+  }
+
+  var start = true;
+  var flagnum = 30;
+  function timefly(){
+      if(kick){
+          if(start){
+              $("#starttime").append(getNow());
+              start = false;
+              $("#kickinfo").empty();
+              flagnum = 30;
+          }
+          $("#kickinfo").append(".");
+          kick = false;
+      }else {
+          $("#kickinfo").append("-");
+      }
+      flagnum--;
+      if(flagnum == 0){
+          flagnum = 30;
+          $("#kickinfo").append("<br>");
+      }
+  }
+
+  var stop = false;
+  $(document).keydown(function(event){
+      count();
+  })
+
+  var timer;
+  $(document).ready(function(){
+      alert("欢迎使用最简单的胎动计数器^_^");
+      timer = setInterval(timefly, 1000);
+  });
+
+  function stoprecord() {
+      if(!stop){
+          $("#endtime").append(getNow());
+          clearInterval(timer);
+          stop = true;
+      }
+  }
+
+  function calcnum() {
+      if(!stop){
+          alert('请先停止计数...');
+      }else {
+          $.ajax({ url: "/taidong/caculate",
+              data: { info: $("#kickinfo").html(), starttime: $("#starttime").html(),  endtime: $("#endtime").html()},
+              success: function(result){
+                  if(result.success){
+                      alert(result.data);
+                  }else{
+                      alert(result.msg);
+                  }
+              }});
+      }
+  }
+
+</script>
+
+</head>
+<body>
+
+<div id="counter" style="height: 100%;width: 100%;border: 1px;position: fixed;background-color: mediumspringgreen;" onclick="count()">
+    <button type="button" class="btn btn-danger btn-lg" onclick="stoprecord()">停止</button>
+    <button type="button" class="btn btn-warning btn-lg" onclick="calcnum()">计算胎动数</button>
+    <p align="center" id="info" style="color: red;">请直接点击屏幕即可 :
+    <span id="starttime" style="color: red;"></span>
+    <span>------</span>
+    <span id="endtime" style="color: red;"></span>
+    </p>
+  <br>
+    <div id="kickinfo"></div>
+</div>
+
+</div>
+</body>
+</html>

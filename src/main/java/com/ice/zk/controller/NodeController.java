@@ -1,6 +1,6 @@
 package com.ice.zk.controller;
 
-import com.ice.BaseResponse;
+import com.ice.common.BaseResponse;
 import com.ice.zk.service.ZkService;
 import org.springframework.data.repository.query.Param;
 import org.springframework.web.bind.annotation.RequestMapping;
