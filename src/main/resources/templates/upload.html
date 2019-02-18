@@ -1,0 +1,78 @@
+<!DOCTYPE html>
+<html
+        xmlns:layout="http://www.ultraq.net.nz/web/thymeleaf/layout"
+        layout:decorator="layout/base">
+<head>
+    <meta charset="utf-8"/>
+    <title>上传</title>
+    <meta http-equiv="X-UA-Compatible" content="IE=Edge"/>
+    <meta name="viewport" content="width=device-width, initial-scale=1"/>
+    <link rel="import" href="/static/import.html">
+    <meta name="keywords" content="穷,我很穷"/>
+
+
+    <script>
+
+        var uploading = false;
+        var uploadurl = "/upload";
+        function uploadfile() {
+            if (uploading) {
+                alert("文件正在上传中，请稍候");
+                return false;
+            }
+            $.ajax({
+                url: uploadurl,
+                type: 'POST',
+                cache: false,
+                data: new FormData($('#infoLogoForm')[0]),
+                processData: false,
+                contentType: false,
+                dataType: "json",
+                beforeSend: function () {
+                    uploading = true;
+                },
+                success: function (result) {
+                    uploading = false;
+                    if (result.success) {
+                        $("#fileid").append(result.data).append("<br>");
+                        // result.data.forEach(function(value , index , array){ //value为遍历的当前元素，index为当前索引，array为正在操作的数组
+                        //     $("#fileid").append(value).append(",").append("<br>");
+                        // });  TODO 只有多个上传,才需要这个
+                    } else {
+                        alert(result.msg);
+                    }
+                    uploadurl = "/upload";
+                }
+            });
+        }
+    </script>
+</head>
+<body>
+
+<form id="infoLogoForm" enctype='multipart/form-data'>
+    <div class="cnt-updateWrapper">
+        <div>
+            <div id="loadImg" class="cnt-img-content">
+                <div id="licenseBox" class="ctn-licence">
+                    <input type="file" id="ctn-input-file" name="file" accept="image/*" style="height:40px">
+                </div>
+                <!--<button id="addfile" class="btn btn-warning" type="button" onclick="addfilefiled()"><b>增加文件</b></button>  TODO 可以放开,变更为多个上传-->
+                <button id="infoLogoSaveBt" class="btn btn-primary cnt-save" type="button" onclick="uploadfile()">保存</button>
+            </div>
+        </div>
+        <div ><span id="fileid"></span></div>
+    </div>
+</form>
+
+<script>
+    function addfilefiled() {
+        if(uploadurl.indexOf("multiUpload") < 0){
+            uploadurl = uploadurl + "/multiUpload";
+        }
+        $('#licenseBox').append("<input type=\"file\" id=\"ctn-input-file\" name=\"file\" accept=\"image/*\" style=\"height:40px\">");
+    }
+
+</script>
+
+</body>
+</html>

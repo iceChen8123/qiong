@@ -18,7 +18,7 @@ public class ControllerAop {
   @Around("execution(* com.ice.*.controller.*Controller.*(..))")
   public Object performance(ProceedingJoinPoint pjp) throws Throwable {
     try {
-      MDC.put("TNAME", RandomStringUtils.randomAlphabetic(20));
+      MDC.put(Constant.REQ_ID, RandomStringUtils.randomAlphabetic(20));
       if (pjp.getArgs().length > 0) {
         log.info("method : {}, args : {}", pjp.getSignature().toShortString(), Arrays.asList(pjp.getArgs()));
       }
