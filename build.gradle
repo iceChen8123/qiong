@@ -39,6 +39,8 @@ dependencies {
 
     compile 'com.aliyun.oss:aliyun-sdk-oss:2.8.3'
 
+    compile 'com.alibaba:fastjson:1.2.56' //test用到了
+
 //    compile 'it.uniroma1.dis.wsngroup.gexf4j:gexf4j:1.0.0' //用echarts的话,可能会用到,其他不用
 //    compile 'com.google.guava:guava'
 }

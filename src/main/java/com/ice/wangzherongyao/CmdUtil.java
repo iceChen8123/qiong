@@ -11,8 +11,9 @@ public class CmdUtil {
 
   public static void main(String[] args) {
     TreeMap<String, String> heroNames = new TreeMap<>();
-    HeroManager.getHeroList().forEach(hero -> {
-      heroNames.put(PinyinHelperUtil.convertToPinyin(hero.getName()), String.format("%-6s: %s", hero.getName(), hero.getId()));
+    HeroIdCache.getHeroIdCache().entrySet().forEach(heroIdInfo -> {
+      String heroName = heroIdInfo.getValue();
+      heroNames.put(PinyinHelperUtil.convertToPinyin(heroName), String.format("%-6s: %s", heroName, heroIdInfo.getKey()));
     });
 
     heroNames.values().forEach(heroName -> {

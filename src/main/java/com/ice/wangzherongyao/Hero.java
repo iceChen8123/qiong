@@ -34,11 +34,11 @@ public class Hero {
 
   private String mingWenExp;//fuwenid_exp
 
-  private List<ParternerHero> parternerList;
+  private List<ParternerHero> parternerList = new ArrayList<>();
 
-  private List<InhibitHero> inhibitHeroList;
+  private List<InhibitHero> inhibitHeroList = new ArrayList<>();
 
-  private List<ResistHero> resistHeroList;
+  private List<ResistHero> resistHeroList = new ArrayList<>();
 
   private String parterners;
   private String inhibitHeros;
@@ -47,7 +47,7 @@ public class Hero {
   public String getParterners() {
     StringBuilder names = new StringBuilder();
     if (!CollectionUtils.isEmpty(parternerList)) {
-      parternerList.forEach(parterner -> names.append("(").append(parterner.getHero().getName()).append(":")
+      parternerList.forEach(parterner -> names.append("(").append(parterner.getHeroName()).append(":")
               .append(parterner.getInfo()).append(")"));
     }
     return names.toString();
@@ -56,7 +56,7 @@ public class Hero {
   public String getInhibitHeros() {
     StringBuilder names = new StringBuilder();
     if (!CollectionUtils.isEmpty(inhibitHeroList)) {
-      inhibitHeroList.forEach(parterner -> names.append("(").append(parterner.getHero().getName()).append(":")
+      inhibitHeroList.forEach(parterner -> names.append("(").append(parterner.getHeroName()).append(":")
               .append(parterner.getInfo()).append(")"));
     }
     return names.toString();
@@ -65,7 +65,7 @@ public class Hero {
   public String getResistHeros() {
     StringBuilder names = new StringBuilder();
     if (!CollectionUtils.isEmpty(resistHeroList)) {
-      resistHeroList.forEach(parterner -> names.append("(").append(parterner.getHero().getName()).append(",").append(":")
+      resistHeroList.forEach(parterner -> names.append("(").append(parterner.getHeroName()).append(",").append(":")
               .append(parterner.getInfo()).append(")"));
     }
     return names.toString();

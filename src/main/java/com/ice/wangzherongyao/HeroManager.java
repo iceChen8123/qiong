@@ -20,28 +20,15 @@ import java.util.Map;
 public class HeroManager {
 
   private static final Map<String, Hero> heroInfoCache = new HashMap<>();
+  private static final Map<String, Long> heroInfoTime = new HashMap<>();
 
   private static final String preUrl = "https://pvp.qq.com/zlkdatasys/zsbd_herolist/";
   private static final String suffUrl = ".json";
 
-  private static boolean alreadyFetch = false;
-
-  public static List<Hero> getHeroList() {
-    if (!alreadyFetch) {
-      alreadyFetch = true;
-      getHeroDetail();
-    }
-    return new ArrayList<>(heroInfoCache.values());
-  }
-
-  private static void getHeroDetail() {
-    HeroIdCache.getHeroIdCache().entrySet().forEach(heroEntry -> {
-      String heroId = heroEntry.getKey();
-      heroInfoCache.put(heroId, getHeroDetail(heroId));
-    });
-  }
-
   public static Hero getHeroDetail(String heroId) {
+    if (heroInfoCache.containsKey(heroId) && System.currentTimeMillis() - heroInfoTime.get(heroId) < 12 * 3600 * 1000) {
+      return heroInfoCache.get(heroId);
+    }
     Hero hero = new Hero();
     try {
 
@@ -76,6 +63,8 @@ public class HeroManager {
       hero.setWartips(heroDetail.get("wartips"));
       hero.setChangetip(heroDetail.get("changetip"));
 
+      heroInfoCache.put(heroId, hero);
+      heroInfoTime.put(heroId, System.currentTimeMillis());
     } catch (IOException e) {
       e.printStackTrace();
     }
@@ -90,7 +79,7 @@ public class HeroManager {
       String heroId = heroDetail.get(idNameTemp.replace("@", i + ""));
       if (StringUtils.isNotBlank(heroId)) {
         ResistHero parterner = new ResistHero();
-        parterner.setHero(heroInfoCache.get(heroId));
+        parterner.setHeroId(heroId);
         parterner.setInfo(heroDetail.get(tipTemp.replace("@", i + "")));
         rtnList.add(parterner);
       }
@@ -106,7 +95,7 @@ public class HeroManager {
       String heroId = heroDetail.get(idNameTemp.replace("@", i + ""));
       if (StringUtils.isNotBlank(heroId)) {
         InhibitHero parterner = new InhibitHero();
-        parterner.setHero(heroInfoCache.get(heroId));
+        parterner.setHeroId(heroId);
         parterner.setInfo(heroDetail.get(tipTemp.replace("@", i + "")));
         rtnList.add(parterner);
       }
@@ -122,14 +111,14 @@ public class HeroManager {
     for (int i = 0; i < 5; i++) {
       String heroId = heroDetail.get(idNameTemp.replace("@", i + ""));
       if (StringUtils.isNotBlank(heroId)) {
-        ParternerHero parterner = new ParternerHero();
-        parterner.setHero(heroInfoCache.get(heroId));
+        ParternerHero partner = new ParternerHero();
+        partner.setHeroId(heroId);
         String info = heroDetail.get(tipTemp.replace("@", i + ""));
         if (StringUtils.isBlank(info)) {
           info = heroDetail.get(yipTemp.replace("@", i + ""));
         }
-        parterner.setInfo(info);
-        rtnList.add(parterner);
+        partner.setInfo(info);
+        rtnList.add(partner);
       }
     }
     return rtnList;
@@ -156,7 +145,11 @@ public class HeroManager {
   }
 
   public static void main(String[] args) {
+    long time = System.currentTimeMillis();
+    System.out.println(time);
     System.out.println(new SimpleHeroInfoFormat().fromHero(getHeroDetail("190")));
+
+    System.out.println(System.currentTimeMillis() - time);
   }
 
 }

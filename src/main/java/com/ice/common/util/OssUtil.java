@@ -1,23 +1,19 @@
 package com.ice.common.util;
 
 import com.aliyun.oss.OSSClient;
-import org.apache.commons.lang3.RandomStringUtils;
-import org.springframework.stereotype.Component;
+import com.aliyun.oss.model.OSSObjectSummary;
+import com.aliyun.oss.model.ObjectListing;
 
-import javax.annotation.PostConstruct;
 import java.io.*;
-import java.text.SimpleDateFormat;
-import java.util.Date;
+import java.util.List;
 
-@Component
 public class OssUtil {
 
   private static OSSClient ossClient;
   private static final String bucketName = "ice-cache";
   private static final String endpoint = "http://oss-cn-shanghai.aliyuncs.com";
 
-  @PostConstruct
-  public void init() {
+  static {
     ossClient = new OSSClient(endpoint, NotCommitPropertiesUtil.getProperty("aliyun.oss.accessKeyId"),
             NotCommitPropertiesUtil.getProperty("aliyun.oss.accessKeySecret"));
   }
@@ -38,16 +34,9 @@ public class OssUtil {
     ossClient.putObject(bucketName, objectName, new ByteArrayInputStream(content.getBytes()));
   }
 
-  public static void main(String[] args) {
-    ossClient = new OSSClient(endpoint, NotCommitPropertiesUtil.getProperty("aliyun.oss.accessKeyId"),
-            NotCommitPropertiesUtil.getProperty("aliyun.oss.accessKeySecret"));
-
-    String content = "Hello OSS123," + new Date().toString();
-    String objectName = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss").format(new Date()) +
-            "-test-" + RandomStringUtils.randomAlphabetic(15);
-    simpleUpload(objectName, content);
-    ossClient.shutdown();
-
+  public static List<OSSObjectSummary> listObject(String keyPrefix) {
+    ObjectListing objectListing = ossClient.listObjects(bucketName, keyPrefix);
+    return objectListing.getObjectSummaries();
   }
 
 }

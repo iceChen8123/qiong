@@ -7,6 +7,7 @@ import org.apache.http.impl.client.HttpClientBuilder;
 
 import java.io.IOException;
 import java.io.InputStream;
+import java.util.Collections;
 import java.util.HashMap;
 import java.util.Map;
 
@@ -23,6 +24,7 @@ public class HeroIdCache {
       allHeroFromServer.entrySet().forEach(heroInfo -> {
         heroIdCache.put(heroInfo.getKey(), heroInfo.getValue());
       });
+      heroIdCache = Collections.unmodifiableMap(heroIdCache);
     } catch (IOException e) {
       e.printStackTrace();
     }
@@ -32,4 +34,11 @@ public class HeroIdCache {
     return heroIdCache;
   }
 
+  public static void main(String[] args) {
+    System.out.println(getHeroIdCache());
+  }
+
+  public static String getHeroName(String heroId) {
+    return heroIdCache.get(heroId);
+  }
 }

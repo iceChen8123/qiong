@@ -22,21 +22,21 @@ public class SimpleHeroInfoFormat implements HeroInfoFormat {
     info.append("ÊÊºÏ´îÅä").append(SEPRATOR).append(System.lineSeparator());
     if (!CollectionUtils.isEmpty(hero.getParternerList())) {
       hero.getParternerList().forEach(relationHero -> {
-        info.append(" ").append(relationHero.getHero().getName()).append(SEPRATOR).append(relationHero.getInfo()).append(System.lineSeparator());
+        info.append(" ").append(relationHero.getHeroName()).append(SEPRATOR).append(relationHero.getInfo()).append(System.lineSeparator());
       });
     }
 
     info.append("¿ËÖÆÓ¢ÐÛ").append(SEPRATOR).append(System.lineSeparator());
     if (!CollectionUtils.isEmpty(hero.getInhibitHeroList())) {
       hero.getInhibitHeroList().forEach(relationHero -> {
-        info.append(" ").append(relationHero.getHero().getName()).append(SEPRATOR).append(relationHero.getInfo()).append(System.lineSeparator());
+        info.append(" ").append(relationHero.getHeroName()).append(SEPRATOR).append(relationHero.getInfo()).append(System.lineSeparator());
       });
     }
 
     info.append("±»Ñ¹ÖÆÓ¢ÐÛ").append(SEPRATOR).append(System.lineSeparator());
     if (!CollectionUtils.isEmpty(hero.getResistHeroList())) {
       hero.getResistHeroList().forEach(relationHero -> {
-        info.append(" ").append(relationHero.getHero().getName()).append(SEPRATOR).append(relationHero.getInfo()).append(System.lineSeparator());
+        info.append(" ").append(relationHero.getHeroName()).append(SEPRATOR).append(relationHero.getInfo()).append(System.lineSeparator());
       });
     }
 

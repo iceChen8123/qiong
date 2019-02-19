@@ -1,0 +1,93 @@
+<!DOCTYPE html>
+<html
+        xmlns:layout="http://www.ultraq.net.nz/web/thymeleaf/layout"
+        layout:decorator="layout/base">
+<head>
+    <meta charset="utf-8"/>
+    <title>王者荣耀英雄池</title>
+    <meta http-equiv="X-UA-Compatible" content="IE=Edge"/>
+    <meta name="viewport" content="width=device-width, initial-scale=1"/>
+    <link rel="import" href="/static/import.html">
+    <meta name="keywords" content="穷,我很穷,王者荣耀"/>
+
+
+    <script>
+        $(document).ready(function(){
+            $.ajax({ url: "/hero/list", success: function(result){
+                    if(result.success){
+                        result.data.forEach(function (value, index, array) {
+                            $('#heroList').append("<option value=\"" + value.heroId + "\">" + value.heroName + "</option>");
+                        });
+                        showHero();
+                    }else{
+                        alert(result.msg);
+                    }
+                }});
+        });
+    </script>
+</head>
+<body>
+<form class="form-inline">
+    <div class="form-group">
+        <select id="heroList" class="form-control" onchange="showHero()">
+        </select>
+    </div>
+</form>
+<hr>
+<form >
+    <div class="form-group">
+        <form>
+            <div class="form-group">
+                <label for="skillPoint">加点</label>
+                <p class="lead" id="skillPoint"></p>
+            </div>
+            <div class="form-group">
+                <label for="skillPointExp">加点思想</label>
+                <p class="lead" id="skillPointExp"></p>
+            </div>
+            <div class="form-group">
+                <label for="usetips">使用技巧</label>
+                <p class="lead" id="usetips"></p>
+            </div>
+            <div class="form-group">
+                <label for="wartips">团战技巧</label>
+                <p class="lead" id="wartips"></p>
+            </div>
+            <div class="form-group">
+                <label for="taginfos">使用策略</label>
+                <p class="lead" id="taginfos"></p>
+            </div>
+            <div class="form-group">
+                <label for="changeinfo">最近调整</label>
+                <p class="lead" id="changeinfo"></p>
+            </div>
+            <div class="form-group">
+                <label for="betterCombat">小心被针对</label>
+                <p class="lead" id="betterCombat"></p>
+            </div>
+        </form>
+    </div>
+</form>
+
+<script>
+    function showHero() {
+        var heroId = $("#heroList option:selected").val();
+        $.ajax({ url: "/hero/"+heroId, success: function(result){
+                if(result.success){
+                    $("#skillPoint").html(result.data["skillPoint"]);
+                    $("#skillPointExp").html(result.data["skillPointExp"]);
+                    $("#usetips").html(result.data["usetips"]);
+                    $("#wartips").html(result.data["wartips"]);
+                    $("#taginfos").html(result.data["surviveTag"] + "    "+ result.data["attackTag"] + "    "+ result.data["skillTag"]);
+                    $("#changeinfo").html(result.data["changetip"]);
+                    $("#betterCombat").html(result.data["betterCombat"]);
+                }else{
+                    alert(result.msg);
+                }
+            }});
+    }
+    
+</script>
+
+</body>
+</html>
