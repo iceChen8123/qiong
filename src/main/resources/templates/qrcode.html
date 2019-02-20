@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html
+<html xmlns:th="http://www.thymeleaf.org"
         xmlns:layout="http://www.ultraq.net.nz/web/thymeleaf/layout"
         layout:decorator="layout/base">
 <head>
@@ -50,5 +50,6 @@
     });
 </script>
 
+<div th:insert="~{layout/footer :: copy}"></div>
 </body>
 </html>
