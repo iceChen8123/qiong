@@ -1,0 +1,60 @@
+<!DOCTYPE html>
+<html
+        xmlns:layout="http://www.ultraq.net.nz/web/thymeleaf/layout"
+        layout:decorator="layout/base">
+<head>
+    <meta charset="utf-8"/>
+    <title>您说</title>
+    <meta http-equiv="X-UA-Compatible" content="IE=Edge"/>
+    <meta name="viewport" content="width=device-width, initial-scale=1"/>
+    <link rel="import" href="/static/import.html">
+    <meta name="keywords" content="穷,我很穷"/>
+
+</head>
+<body>
+<div class="col-md-3"> </div>
+<div class="col-md-6">
+<form class="form-horizontal">
+    <div class="form-group">
+        <label for="numberType">联系方式</label>
+        <select id="numberType" class="form-control" onchange="showHero()">
+            <option value="wechat">微信</option>
+            <option value="phone">手鸡号</option>
+            <option value="email">油箱</option>
+        </select>
+    </div>
+    <div class="form-group">
+        <label for="number">联系号码</label>
+        <input type="text" class="form-control" id="number">
+    </div>
+    <div class="form-group">
+        <label for="advice">您想?</label>
+        <textarea class="form-control" id="advice" rows="6"></textarea>
+    </div>
+    <button class="btn btn-primary" onclick="sumbitadvice()">提交</button>
+</form>
+</div>
+<div class="col-md-3"> </div>
+<script>
+    function sumbitadvice() {
+        var numberType = $("#numberType option:selected").val();
+        $.ajax({ url: "/advice",
+            method: 'POST',
+            data: {
+                numberType : numberType,
+                number : $("#number").val(),
+                advice : $("#advice").val(),
+            },
+            success: function(result){
+                if(result.success){
+                    alert(result.data);
+                }else{
+                    alert(result.msg);
+                }
+            }});
+    }
+    
+</script>
+
+</body>
+</html>
