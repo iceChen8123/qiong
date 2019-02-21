@@ -1,6 +1,6 @@
 package com.ice.common.service;
 
-import com.alibaba.fastjson.JSON;
+import com.ice.common.util.DateUtil;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Component;
 
@@ -10,17 +10,17 @@ import java.util.Date;
 @Slf4j
 public class AdviceService {
 
-  public void record(String numberType, String number, String advice) {
-    log.info(convert(numberType, number, advice));
+  public void record(String fullname, String number, String advice) {
+    log.info(convert(fullname, number, advice));
   }
 
-  private String convert(String numberType, String number, String advice) {
+  private String convert(String name, String number, String advice) {
     StringBuilder stringBuilder = new StringBuilder(System.lineSeparator())
             .append("-------------------msgStart-------------------").append(System.lineSeparator());
-    stringBuilder.append("time : ").append(JSON.toJSONString(new Date())).append(System.lineSeparator());
-    stringBuilder.append("contact way : ").append(numberType).append(System.lineSeparator());
-    stringBuilder.append("contact number : ").append(number).append(System.lineSeparator());
-    stringBuilder.append("advice : ").append(advice).append(System.lineSeparator());
+    stringBuilder.append("time : ").append(DateUtil.getSimpleDateFormat().format(new Date())).append(System.lineSeparator());
+    stringBuilder.append("name : ").append(name).append(System.lineSeparator());
+    stringBuilder.append("number : ").append(number).append(System.lineSeparator());
+    stringBuilder.append("message : ").append(advice).append(System.lineSeparator());
     stringBuilder.append("-------------------msgEnd-------------------");
     return stringBuilder.toString();
   }

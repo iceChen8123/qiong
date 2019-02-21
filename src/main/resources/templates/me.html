@@ -273,23 +273,6 @@
 </section>
 
 -->
-<!-- Quotes Section
-
-<section id="quotes" class="parallax-section">
-	<div class="overlay"></div>
-	<div class="container">
-		<div class="row">
-
-			<div class="col-md-offset-1 col-md-10 col-sm-12">
-				<i class="wow fadeInUp fa fa-star" data-wow-delay="0.6s"></i>
-				<h2 class="wow fadeInUp" data-wow-delay="0.8s">Proin lobortis eu diam et facilisis. Fusce nisi nibh, molestie in vestibulum quis, auctor et orci.</h2>
-				<p class="wow fadeInUp" data-wow-delay="1s">Curabitur at pulvinar ante. Duis dui urna, faucibus eget felis eu, iaculis congue sem.</p>
-			</div>
-
-		</div>
-	</div>
-</section>
--->
 
 <!-- Contact Section -->
 
@@ -306,47 +289,23 @@
 					</div>
 
 					<div id="contact-form">
-						<form action="#template-mo" method="post">
+						<form class="form-horizontal">
 							<div class="wow fadeInUp" data-wow-delay="1s">
-								<input name="fullname" type="text" class="form-control" id="fullname" placeholder="您叫?">
+								<input name="fullname" type="text" class="form-control" id="fullname" placeholder="您叫?" />
 							</div>
 							<div class="wow fadeInUp" data-wow-delay="1.2s">
-								<input name="number" type="text" class="form-control" id="number" placeholder="联系方式?">
+								<input name="number" type="text" class="form-control" id="number" placeholder="联系方式?" />
 							</div>
 							<div class="wow fadeInUp" data-wow-delay="1.4s">
 								<textarea name="message" rows="5" class="form-control" id="message" placeholder="说点啥呗~~"></textarea>
 							</div>
-							<div class="wow fadeInUp col-md-6 col-sm-8" data-wow-delay="1.8s" >
-								<input name="submit" type="submit" class="form-control" id="submit" value="走你~">
+							<div class="wow fadeInUp col-md-6 col-sm-8" data-wow-delay="1.8s" align="center">
+								<button type="button" class="btn btn-default btn-lg" onclick="sumbitadvice()">走1你~</button>
 							</div>
 						</form>
 					</div>
-
 				</div>
 			</div>
-
-			<!--
-			<div class="col-md-3 col-sm-6">
-				<div class="background-image contact-img"></div>
-			</div>
-
-			<div class="bg-dark col-md-3 col-sm-6">
-				<div class="contact-thumb">
-					<div class="wow fadeInUp contact-info" data-wow-delay="0.6s">
-						<h3 class="color-white">Visit my office</h3>
-						<p>456 New Street 22000, New York City, USA</p>
-					</div>
-
-					<div class="wow fadeInUp contact-info" data-wow-delay="0.8s">
-						<h3 class="color-white">Contact.</h3>
-						<p><i class="fa fa-phone"></i> 01-0110-0220</p>
-						<p><i class="fa fa-envelope-o"></i> <a href="mailto:hello@company.co">hello@company.co</a></p>
-						<p><i class="fa fa-globe"></i> <a href="#">company.co</a></p>
-					</div>
-
-				</div>
-			</div>
-			-->
 
 		</div>
 	</div>
@@ -383,6 +342,26 @@
 <script src="static/me/js/smoothscroll.js"></script>
 <script src="static/me/js/wow.min.js"></script>
 <script src="static/me/js/custom.js"></script>
+
+<script>
+    function sumbitadvice() {
+        $.ajax({ url: "/advice",
+			method: 'POST',
+            data: {
+                fullname : $("#fullname").val(),
+                number : $("#number").val(),
+                message : $("#message").val(),
+            },
+            success: function(result){
+                if(result.success){
+                    alert(result.data);
+                }else{
+                    alert(result.msg);
+                }
+            }});
+    }
+
+</script>
 
 </body>
 </html>

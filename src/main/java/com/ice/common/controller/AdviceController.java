@@ -25,13 +25,13 @@ public class AdviceController {
 
   @RequestMapping(value = "", method = RequestMethod.POST)
   @ResponseBody
-  public BaseResponse advice(@RequestParam(value = "numberType", required = false) String numberType,
+  public BaseResponse advice(@RequestParam(value = "fullname", required = false) String fullname,
                              @RequestParam(value = "number", required = false) String number,
-                             @RequestParam("advice") String advice) {
+                             @RequestParam("message") String advice) {
     if (StringUtils.isBlank(advice)) {
       return BaseResponse.builder().isSuccess(false).msg("advice is null.").build();
     }
-    adviceService.record(numberType, number, advice);
+    adviceService.record(fullname, number, advice);
     return BaseResponse.builder().isSuccess(true).data("Thank you ~").build();
   }
 
