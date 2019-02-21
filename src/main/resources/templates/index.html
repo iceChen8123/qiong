@@ -13,10 +13,6 @@
 <script type="text/javascript">
 var money=0;
 var s = function(m,n){ return (m/n)%100; };
-var ran = function getRandom(n){
-    return Math.floor(Math.random()*n);
-    };
-var slice = 5;
 var up = true;
 
 var qiongn=0;
@@ -35,48 +31,20 @@ var youfailed = function(m){
 }
 $(function(){  
     run();            
-    var interval1;  
-    var interval2;  
+    var interval2;
         function run() {  
-           interval1 = setInterval(chat, "200");  
-           interval2 = setInterval(qiong, "100");  
+           interval2 = setInterval(qiong, "300");
         }  
-        function chat() {  
-        	if(up){
-	        	money++;
-        		if(money == 100*slice){
-        			up = false;
-		            $('#barbar1').attr("style", "width: 100%");
-		            $('#barbar2').attr("style", "width: 100%");
-		            $('#barbar3').attr("style", "width: 100%");
-		            $('#barbar4').attr("style", "width: 100%");
-        		}else{
-		            $('#barbar1').attr("style", "width: "+s(money,ran(slice))+"%");
-		            $('#barbar2').attr("style", "width: "+s(money,ran(slice))+"%");
-		            $('#barbar3').attr("style", "width: "+s(money,ran(slice))+"%");
-		            $('#barbar4').attr("style", "width: "+s(money,ran(slice))+"%");
-        		}
-        	}else{
-	        	money--;
-        		if(money == 0){
-        			up = true;
-        		}
-	            $('#barbar1').attr("style", "width: "+s(money,ran(slice))+"%");
-	            $('#barbar2').attr("style", "width: "+s(money,ran(slice))+"%");
-	            $('#barbar3').attr("style", "width: "+s(money,ran(slice))+"%");
-	            $('#barbar4').attr("style", "width: "+s(money,ran(slice))+"%");
-        	}
-        }  
-        
+
         function qiong() {  
-        	if(rest < 15){ //倒计时等待
+        	if(rest < 5){ //倒计时等待
         		rest++;
         		return ;
         	}else if (rest == 15){ //发行货币
         		rest++;
 	          	qiongn = 0;
 	          	$('#barbar11').attr("style", "width: "+qiongn+"%");
-	            $('#barbar12').attr("style", "width: "+qiongn*1.5+"%");
+	            $('#barbar12').attr("style", "width: "+qiongn*3+"%");
 	            $('#barbar21').attr("style", "width: "+qiongn*7+"%");
         		alertD(1);
         	}else if(rest < 40){ //等待
@@ -84,21 +52,22 @@ $(function(){
         		return;
         	}else{
         		qiongn++;
-    	        if(qiongn*1.5 > 100){
+    	        if(qiongn*3 > 100){
     	           	rest = 0;
     	        	youfailed(1);
     	        }else{
     	            $('#barbar11').attr("style", "width: "+qiongn+"%");
-    	            $('#barbar12').attr("style", "width: "+qiongn*1.5+"%");
+    	            $('#barbar12').attr("style", "width: "+qiongn*3+"%");
     	            $('#barbar21').attr("style", "width: "+qiongn*7+"%");
     	        }
         	}
         }   
-}); 
+});
 
 </script>
 </head>
 <body>
+<div th:insert="~{layout/nav :: topnav}"></div>
 
 <div class="modal fade" id="myModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel">
   <div class="modal-dialog" role="document">
@@ -192,10 +161,6 @@ $(function(){
 </div>
 
 </div>
-
-
-<div th:insert="~{layout/nav :: topnav}"></div>
-
 <div th:insert="~{layout/footer :: copy}"></div>
 
 </body>
