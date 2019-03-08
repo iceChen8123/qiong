@@ -18,4 +18,14 @@ public class HelloPageController {
     return new ModelAndView("me");
   }
 
+  @RequestMapping("/spring")
+  public ModelAndView toSpringPage() {
+    return new ModelAndView("spring");
+  }
+
+  @RequestMapping("/words")
+  public ModelAndView toWordsPage() {
+    return new ModelAndView("words");
+  }
+
 }
