@@ -28,4 +28,9 @@ public class HelloPageController {
     return new ModelAndView("words");
   }
 
+  @RequestMapping("/be-a-mom")
+  public ModelAndView toBeAMomPage() {
+    return new ModelAndView("beamom");
+  }
+
 }
