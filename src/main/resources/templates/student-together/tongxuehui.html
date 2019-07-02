@@ -1,0 +1,27 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org"
+      xmlns:layout="http://www.ultraq.net.nz/web/thymeleaf/layout"
+      layout:decorator="layout/base">
+<head>
+    <meta charset="utf-8"/>
+    <title>同学汇</title>
+    <meta http-equiv="X-UA-Compatible" content="IE=Edge"/>
+    <meta name="viewport" content="width=device-width, initial-scale=1"/>
+    <link rel="import" href="/static/import.html">
+    <meta name="keywords" content="同学汇,同学会"/>
+</head>
+<body>
+
+<table class="table">
+    <tr ><td align="center">
+        <img th:src="${photoPath}" class="img-circle img-responsive center-block">
+    </td></tr>
+    <tr ><td align="center">学校: <span th:text="${school}"></span></td></tr>
+    <tr ><td align="center">姓名: <span th:text="${name}"></span></td></tr>
+    <tr ><td align="center">学号: <span th:text="${studentId}"></span></td></tr>
+    <tr ><td align="center">届数: <span th:text="${enrollmentYear}"></span></td></tr>
+</table>
+
+<div th:insert="~{layout/footer :: copy}"></div>
+</body>
+</html>
