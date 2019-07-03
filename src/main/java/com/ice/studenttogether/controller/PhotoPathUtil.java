@@ -18,16 +18,9 @@ public class PhotoPathUtil {
     Executors.newSingleThreadScheduledExecutor().scheduleAtFixedRate(new Runnable() {
       @Override
       public void run() {
-        File file = new File("C:\\Users\\ICE\\Desktop\\photo.properties");
-        if(!file.exists()){
-          file = new File("/home/ice/qiong/photo.properties");
-        }
-        if (lastModified != file.lastModified()) {
-          init();
-          lastModified = file.lastModified();
-        }
+        init();
       }
-    }, 10, 10, TimeUnit.SECONDS);
+    }, 1, 10, TimeUnit.SECONDS);
 
   }
 
@@ -37,9 +30,16 @@ public class PhotoPathUtil {
 
   private static void init() {
     try {
-      InputStream in = new BufferedInputStream(new FileInputStream(new File("C:\\Users\\ICE\\Desktop\\photo.properties")));
-      prop.load(in);
-      in.close();
+      File file = new File("C:\\Users\\ICE\\Desktop\\photo.properties");
+      if (!file.exists()) {
+        file = new File("/home/ice/qiong/photo.properties");
+      }
+      if (lastModified != file.lastModified()) {
+        InputStream in = new BufferedInputStream(new FileInputStream(file));
+        prop.load(in);
+        in.close();
+        lastModified = file.lastModified();
+      }
     } catch (Exception e) {
       e.printStackTrace();
     }
