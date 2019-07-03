@@ -1,0 +1,48 @@
+package com.ice.studenttogether.controller;
+
+import java.io.BufferedInputStream;
+import java.io.File;
+import java.io.FileInputStream;
+import java.io.InputStream;
+import java.util.Properties;
+import java.util.concurrent.Executors;
+import java.util.concurrent.TimeUnit;
+
+public class PhotoPathUtil {
+
+  private static final Properties prop = new Properties();
+
+  private static long lastModified = 0;
+
+  static {
+    Executors.newSingleThreadScheduledExecutor().scheduleAtFixedRate(new Runnable() {
+      @Override
+      public void run() {
+        File file = new File("C:\\Users\\ICE\\Desktop\\photo.properties");
+        if(!file.exists()){
+          file = new File("");
+        }
+        if (lastModified != file.lastModified()) {
+          init();
+          lastModified = file.lastModified();
+        }
+      }
+    }, 10, 10, TimeUnit.SECONDS);
+
+  }
+
+  public static String getPhotoPath(String key) {
+    return prop.getProperty(key);
+  }
+
+  private static void init() {
+    try {
+      InputStream in = new BufferedInputStream(new FileInputStream(new File("C:\\Users\\ICE\\Desktop\\photo.properties")));
+      prop.load(in);
+      in.close();
+    } catch (Exception e) {
+      e.printStackTrace();
+    }
+  }
+
+}
