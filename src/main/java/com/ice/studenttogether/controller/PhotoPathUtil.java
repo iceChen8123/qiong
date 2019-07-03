@@ -20,7 +20,7 @@ public class PhotoPathUtil {
       public void run() {
         File file = new File("C:\\Users\\ICE\\Desktop\\photo.properties");
         if(!file.exists()){
-          file = new File("");
+          file = new File("/home/ice/qiong/photo.properties");
         }
         if (lastModified != file.lastModified()) {
           init();
