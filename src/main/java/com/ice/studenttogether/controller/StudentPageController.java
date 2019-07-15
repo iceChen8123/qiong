@@ -39,10 +39,10 @@ public class StudentPageController {
     nameCache.put("wuleyu-050970722", "吴乐愚");
     nameCache.put("xuwei-050970723", "徐伟");
     nameCache.put("yangzhiyong-050970724", "杨智勇");
-    nameCache.put("zhaiyinfei-050970721", "翟寅飞");
-    nameCache.put("zhaopeng-050970722", "赵鹏");
-    nameCache.put("zhangliwen-050970723", "张力文");
-    nameCache.put("zhujie-050970724", "朱杰");
+    nameCache.put("zhaiyinfei-050970725", "翟寅飞");
+    nameCache.put("zhaopeng-050970726", "赵鹏");
+    nameCache.put("zhangliwen-050970727", "张力文");
+    nameCache.put("zhujie-050970728", "朱杰");
 
   }
 

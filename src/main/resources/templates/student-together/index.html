@@ -12,6 +12,8 @@
 </head>
 <body oncontextmenu="return false" onselectstart="return false" ondragstart="return false">
 
+<div th:insert="~{layout/nav :: topnav}"></div>
+
 <table class="table">
     <tr th:each="temp : ${temp}">
         <td><img th:src="${temp.photoPath}" class="img-rounded img-responsive center-block"></td>
@@ -20,6 +22,11 @@
         <td th:text="${temp.studentId}"></td>
     </tr>
 </table>
+
+<button type="button" class="btn btn-warning"
+        data-toggle="tooltip" data-placement="left" title="定制卡牌时,将定制卡牌的图片发送给我,我会给您每个图片相应的二维码.不保证永久有效,但至少是一份怀念."
+        onclick="window.location.href='/me#contact'">我也要做 &nbsp &nbsp<span class="glyphicon glyphicon-envelope" aria-hidden="true"></span></button>
+
 
 <div th:insert="~{layout/footer :: copy}"></div>
 </body>
