@@ -12,15 +12,13 @@ public class PhotoPathUtil {
 
   private static final Properties prop = new Properties();
 
-  private static long lastModified = 0;
-
   static {
     Executors.newSingleThreadScheduledExecutor().scheduleAtFixedRate(new Runnable() {
       @Override
       public void run() {
         init();
       }
-    }, 1, 10, TimeUnit.SECONDS);
+    }, 1, 30, TimeUnit.SECONDS);
 
   }
 
@@ -34,12 +32,9 @@ public class PhotoPathUtil {
       if (!file.exists()) {
         file = new File("/home/ice/qiong/photo.properties");
       }
-      if (lastModified != file.lastModified()) {
-        InputStream in = new BufferedInputStream(new FileInputStream(file));
-        prop.load(in);
-        in.close();
-        lastModified = file.lastModified();
-      }
+      InputStream in = new BufferedInputStream(new FileInputStream(file));
+      prop.load(in);
+      in.close();
     } catch (Exception e) {
       e.printStackTrace();
     }
