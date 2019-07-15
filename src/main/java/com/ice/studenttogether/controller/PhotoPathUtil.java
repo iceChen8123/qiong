@@ -18,7 +18,7 @@ public class PhotoPathUtil {
       public void run() {
         init();
       }
-    }, 1, 30, TimeUnit.SECONDS);
+    }, 10, 30, TimeUnit.SECONDS);
 
   }
 
