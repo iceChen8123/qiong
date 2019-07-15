@@ -14,7 +14,7 @@
 
 <table class="table">
     <tr th:each="temp : ${temp}">
-        <img th:src="${temp.photoPath}" class="img-rounded img-responsive center-block">
+        <td><img th:src="${temp.photoPath}" class="img-rounded img-responsive center-block"></td>
         <td th:text="${temp.school}"></td>
         <td th:text="${temp.name}"></td>
         <td th:text="${temp.studentId}"></td>
