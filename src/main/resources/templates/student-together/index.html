@@ -14,7 +14,7 @@
 
 <div th:insert="~{layout/nav :: topnav}"></div>
 
-<table class="table">
+<table class="table" border="1">
     <tr th:each="temp : ${temp}">
         <td><img th:src="${temp.photoPath}" class="img-rounded img-responsive center-block"></td>
         <td th:text="${temp.school}"></td>
